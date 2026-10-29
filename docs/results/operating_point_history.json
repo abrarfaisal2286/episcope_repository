@@ -1,0 +1,66 @@
+{
+ "method": "cusum",
+ "threshold": 10.0,
+ "min_count": 5,
+ "evaluation_start": "2022-01-16",
+ "rule": "max sensitivity subject to <= 1.0 false alert episodes per district-year",
+ "metrics": {
+  "method": "cusum",
+  "threshold": 10.0,
+  "guard": true,
+  "events": 92,
+  "detected": 83,
+  "sensitivity": 0.9021739130434783,
+  "sensitivity_local": 0.7857142857142857,
+  "false_alert_episodes": 174,
+  "false_per_district_year": 0.6920023954703832,
+  "median_days_to_detection": 28.0
+ },
+ "per_method": {
+  "c2": {
+   "method": "c2",
+   "threshold": 8.0,
+   "guard": true,
+   "events": 92,
+   "detected": 49,
+   "sensitivity": 0.532608695652174,
+   "sensitivity_local": 0.5,
+   "false_alert_episodes": 186,
+   "false_per_district_year": 0.7397266986062718,
+   "median_days_to_detection": 21.0
+  },
+  "fl": {
+   "method": "fl",
+   "threshold": 6.0,
+   "guard": true,
+   "events": 92,
+   "detected": 82,
+   "sensitivity": 0.8913043478260869,
+   "sensitivity_local": 0.7857142857142857,
+   "false_alert_episodes": 247,
+   "false_per_district_year": 0.9823252395470383,
+   "median_days_to_detection": 20.0
+  },
+  "cusum": {
+   "method": "cusum",
+   "threshold": 10.0,
+   "guard": true,
+   "events": 92,
+   "detected": 83,
+   "sensitivity": 0.9021739130434783,
+   "sensitivity_local": 0.7857142857142857,
+   "false_alert_episodes": 174,
+   "false_per_district_year": 0.6920023954703832,
+   "median_days_to_detection": 28.0
+  }
+ },
+ "artefact_test": {
+  "F5549000": {
+   "district_id": "BD5549",
+   "backfill_date": "2024-07-29",
+   "naive_alert_weeks": 1,
+   "guarded_alert_weeks": 0,
+   "artefact_weeks_flagged": 4
+  }
+ }
+}

@@ -1,0 +1,15 @@
+.env
+data/raw/
+data/lake/
+data/outputs/
+data/ground_truth/
+data/logs/
+data/reference/raw_district_source.json
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+node_modules/
+metastore_db/
+derby.log
+spark-warehouse/

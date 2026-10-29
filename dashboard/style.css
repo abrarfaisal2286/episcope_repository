@@ -1,0 +1,24 @@
+* { box-sizing: border-box; }
+body { margin: 0; font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #1a1a1a; background: #f5f5f5; }
+header { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; padding: 10px 16px; background: #ffffff; border-bottom: 1px solid #cccccc; }
+h1 { margin: 0; font-size: 20px; } .sub { color: #555555; margin-left: 8px; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px 16px; } label { display: inline-flex; gap: 6px; align-items: center; }
+select, input[type=range] { font: inherit; }
+.fresh { margin-left: auto; color: #333333; font-size: 12px; }
+.error { background: #fff3cd; border: 1px solid #b38600; padding: 8px 16px; margin: 8px 16px; }
+main { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 12px; padding: 12px 16px; }
+.panel { background: #ffffff; border: 1px solid #cccccc; padding: 8px 10px; min-width: 0; }
+.panel.wide { grid-column: span 2; } @media (max-width: 900px) { .panel.wide { grid-column: span 1; } }
+h2 { margin: 0 0 6px; font-size: 14px; } .stamp { font-weight: normal; font-size: 11px; color: #555555; margin-left: 6px; }
+.hint { color: #444444; font-size: 12px; margin: 2px 0 4px; min-height: 16px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: #333333; align-items: center; }
+.legend .sw { display: inline-block; width: 14px; height: 10px; margin-right: 4px; vertical-align: middle; border: 1px solid #888888; }
+#table-wrap { max-height: 360px; overflow: auto; } table { border-collapse: collapse; width: 100%; font-size: 12px; }
+th, td { padding: 3px 6px; border-bottom: 1px solid #dddddd; text-align: right; white-space: nowrap; } th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+th { position: sticky; top: 0; background: #eeeeee; cursor: pointer; } tr.sel { background: #dbe9f6; } tr.row { cursor: pointer; } tr.row:hover { background: #f0f0f0; }
+.tip { position: fixed; pointer-events: none; background: #ffffff; border: 1px solid #333333; padding: 4px 8px; font-size: 12px; max-width: 280px; z-index: 10; }
+.slider { margin: 6px 0; display: flex; flex-direction: column; } .slider label { justify-content: space-between; }
+footer { padding: 8px 16px 16px; color: #444444; font-size: 12px; }
+.axis text { font-size: 10px; } .axis path, .axis line { stroke: #777777; }
+.district { stroke: #ffffff; stroke-width: 0.5; cursor: pointer; } .district.sel { stroke: #000000; stroke-width: 2.2; }
+.restricted { fill: #dddddd; }

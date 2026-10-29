@@ -1,0 +1,7 @@
+{
+  "name": "episcope-dashboard-tests",
+  "private": true,
+  "description": "Headless smoke test for the D3 dashboard (jsdom). Not needed to run the dashboard.",
+  "scripts": { "smoke": "node tests/dashboard_smoke.js" },
+  "devDependencies": { "jsdom": "24.1.3" }
+}

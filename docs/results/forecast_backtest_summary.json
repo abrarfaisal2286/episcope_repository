@@ -1,0 +1,9 @@
+{
+ "origins": 52,
+ "rows": 119808,
+ "share_districts_beating_naive": {
+  "dengue": 0.984375,
+  "diarrhoea": 0.859375,
+  "malaria": 1.0
+ }
+}

@@ -1,0 +1,45 @@
+\appendices
+\section{Policy Brief for the Director, Disease Control and Preparedness Unit}\label{app:brief}
+\textbf{Purpose.} EpiScope is a working prototype that uses routine reports, weather and stock records to warn of rising disease, forecast hospital demand for the next four weeks and suggest where to send limited supplies. The numbers below come from a trial on synthetic data with known, planted outbreaks; they show how the system behaves, not what is happening in the country.
+
+\textbf{1. Current situation.} In the trial year the dengue season built up from July and peaked in September. At the planning week of @@B_PLAN_ORIGIN@@, just before the peak, the supplies needed for the next four weeks exceeded what the districts held by about USD @@B_NEED_PEAK@@ for the four items we track (IV saline, oral rehydration salts, dengue test kits and malaria medicine). By the latest week (@@B_LATEST_ORIGIN@@, low season) the shortfall was only about USD @@B_NEED_LATEST@@. Large cities need the most, while stocks follow hospital size, so shortages appear in a few districts first.
+
+\textbf{2. Three recommendations and their expected effect.}
+\begin{enumerate}
+\item \textbf{Send supplies by forecast need, not by population.} With 60\% of the national need funded, a forecast-based allocation leaves @@B_IMPR60@@ less urgent need unmet than a population-proportional split; with 80\% funded the gain is @@B_IMPR80@@. The gain is largest when money is tight but not absent.
+\item \textbf{Keep a guaranteed minimum for every district.} Giving each district at least @@B_ALPHA@@ of its population share of every item costs @@B_ALPHA_LOSS@@ in overall effectiveness at a 60\% budget and cuts the inequality of coverage between districts from @@B_GINI0@@ to @@B_GINI4@@ (a lower figure is fairer). Raising the guarantee above about 60\% starts to waste supplies. The Ministry should decide this value as a policy choice; the dashboard shows the cost of each setting.
+\item \textbf{Prepare by season and act on early warnings.} Begin pre-positioning stock six weeks, and prevention campaigns eight weeks, before the high season of each division (for dengue: @@B_DENGUE_SEASON@@, in epidemiological weeks). The warning system found @@B_SENS@@ of the planted outbreaks with about @@B_FA@@ false alarm per district per year, typically @@B_DAYS@@ days after the outbreak began, so a warning should trigger a check and local response, not a final decision.
+\end{enumerate}
+
+\textbf{3. How to read the dashboard.} The map shows cases per 100\,000 people for the weeks selected on the small time bar below the line chart; a triangle marks a district with an active warning. Click a district to see its weekly cases, the forecast for the next four weeks (the shaded band is the range in which about four out of five outcomes are expected) and, below, supplies needed, held and recommended. A hatched or blank cell means the number is too small to be shown to protect privacy. A dashed line at the end of a series means late reports are still arriving and the count will rise. Use the sliders on the right to see how the plan changes with the budget and with the minimum guarantee.
+
+\textbf{4. Confidence and limitations.} The forecast is more accurate than simply repeating last year (about @@B_FC_GAIN@@ lower error for dengue) but weekly counts in small districts are uncertain, and the bands are deliberately wide. The trial used synthetic data, approximate populations and simulated weather; accuracy on real data will be lower. Warnings come about three to four weeks after an outbreak starts because reports arrive late. The supply conversion factors (for example bags of saline per admission) are assumptions to be replaced by national protocols. The system supports decisions; it does not replace the judgement of district and national officers.
+
+\textbf{5. Data-protection assurance.} Patient identities are scrambled with a secret key the moment records enter the system and never reach the dashboard. The dashboard shows only totals by district and week; counts of one to four are hidden, and hidden numbers cannot be worked out from the totals shown. District officers see their own district in full and the others only as regional totals. No record-level data leave the secure server.
+
+\section{Contribution Matrix}\label{app:matrix}
+Enter L (lead), S (support) or -- (no involvement), agree an overall percentage, and sign. The suggested lead roles follow the assignment (Member 1 data engineering, Member 2 analytics, Member 3 visualisation); the team must replace this with the real distribution of work.
+\begin{table}[h]\centering\footnotesize
+\begin{tabularx}{\columnwidth}{@{}Xccc@{}}\toprule Work area & M1 & M2 & M3 \\\midrule
+Problem analysis, proposal, conflicts & & & \\
+Synthetic generator, public data & & & \\
+Ingestion, lakehouse layers, incremental loads & & & \\
+Data quality, lineage, privacy controls & & & \\
+Outbreak detection and evaluation & & & \\
+Forecasting, backtesting, demand conversion & & & \\
+Optimisation model, preparedness calendar & & & \\
+Serving layer and D3.js dashboard & & & \\
+Scalability experiment, Spark optimisations & & & \\
+Report and policy brief & & & \\
+Video production & & & \\\midrule
+Agreed overall share $\sigma_i$ (\%, total 100) & & & \\
+Commits / lines (git shortlog -sn) & & & \\
+Signature & & & \\\bottomrule
+\end{tabularx}\end{table}
+
+\section{Individual Reflections}\label{app:reflect}
+Each member writes a half page in their own words: what they built, what they learned, what went wrong and what they would change. (Placeholders only: the reflections must be written by the members themselves.) Suggested prompts: Which design decision in your area did you change after seeing results, and why? Which part of another member's work did you review or fix? What would you do first with another two weeks?
+
+\vspace{4pt}\noindent\textbf{Member 1:} \rule{0.9\columnwidth}{0.4pt}\\[10pt]
+\noindent\textbf{Member 2:} \rule{0.9\columnwidth}{0.4pt}\\[10pt]
+\noindent\textbf{Member 3:} \rule{0.9\columnwidth}{0.4pt}

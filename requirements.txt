@@ -1,0 +1,10 @@
+# Python 3.10 - 3.12. Java 11 or 17 is required by Spark (Java 21 breaks Arrow-based pandas UDFs in Spark 3.5).
+pyspark==3.5.3
+pandas==2.2.3
+numpy==1.26.4
+pyarrow==16.1.0
+scipy==1.13.1
+statsmodels==0.14.2
+shapely==2.0.6
+pytest==8.3.3
+setuptools==75.1.0

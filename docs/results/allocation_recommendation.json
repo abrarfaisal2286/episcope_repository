@@ -1,0 +1,35 @@
+{
+ "rule": "largest alpha with weighted unmet demand within 10% of alpha=0",
+ "per_budget": {
+  "0.2": {
+   "alpha": 0.8,
+   "scenario_id": "b020_a080",
+   "efficiency_loss": 0.013119443193285285,
+   "min_coverage": 0.0
+  },
+  "0.4": {
+   "alpha": 0.8,
+   "scenario_id": "b040_a080",
+   "efficiency_loss": 0.04374327348405593,
+   "min_coverage": 0.0
+  },
+  "0.6": {
+   "alpha": 0.6,
+   "scenario_id": "b060_a060",
+   "efficiency_loss": 0.08434736264978104,
+   "min_coverage": 0.0
+  },
+  "0.8": {
+   "alpha": 0.2,
+   "scenario_id": "b080_a020",
+   "efficiency_loss": 0.0455637349910778,
+   "min_coverage": 0.0
+  },
+  "1.0": {
+   "alpha": 0.0,
+   "scenario_id": "b100_a000",
+   "efficiency_loss": 0.0,
+   "min_coverage": 0.5876641641607228
+  }
+ }
+}

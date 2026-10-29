@@ -1,0 +1,62 @@
+[
+ {
+  "experiment": "1 broadcast join of facility registry",
+  "rows": 1260773,
+  "before_s": 5.776,
+  "after_s": 2.258,
+  "speedup": 2.56,
+  "cause": "sort-merge join shuffles every encounter by facility_id; a 650-row table fits in memory",
+  "metrics_after_both": {
+   "stages": 30,
+   "shuffle_read_mb": 18.98,
+   "shuffle_write_mb": 18.98,
+   "input_mb": 108.04,
+   "tasks": 405
+  }
+ },
+ {
+  "experiment": "2 partition pruning by epi_year/epi_week",
+  "rows": 1260773,
+  "before_s": 0.519,
+  "after_s": 3.583,
+  "speedup": 0.14,
+  "input_partitions_without_pruning": 9,
+  "input_partitions_with_pruning": 1,
+  "plan_fragment": ": [isnotnull(epi_year#1019), isnotnull(epi_week#1020), (epi_year#1019 = 2025), (epi_week#1020 = 11)], PushedFilters: [],",
+  "cause": "a one-week query reads one partition directory instead of scanning every file",
+  "catalog_unpartitioned_s": 0.516,
+  "catalog_partitioned_s": 0.729
+ },
+ {
+  "experiment": "3 skewed aggregation (largest district share 10.0%)",
+  "rows": 5043092,
+  "plain_aqe_off_s": 6.461,
+  "salted_aqe_off_s": 4.573,
+  "plain_aqe_on_s": 3.175,
+  "top_districts": [
+   [
+    "BD3026",
+    126237
+   ],
+   [
+    "BD2015",
+    76317
+   ],
+   [
+    "BD2019",
+    46018
+   ]
+  ],
+  "cause": "hash partitioning sends all rows of the largest district to one task; salting spreads them, AQE coalesces small partitions"
+ },
+ {
+  "experiment": "4 file compaction",
+  "rows": 1260773,
+  "files_before": 200,
+  "files_after": 4,
+  "before_s": 1.118,
+  "after_s": 0.446,
+  "speedup": 2.51,
+  "cause": "hundreds of tiny files cost task scheduling and open/footer overhead; compaction reduces tasks"
+ }
+]

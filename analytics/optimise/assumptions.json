@@ -1,0 +1,18 @@
+{
+  "_note": "Teaching assumptions. Replace with national protocols before operational use.",
+  "resources": {
+    "iv_saline":     {"unit": "bag",    "cost_usd": 1.20, "volume": 1.00},
+    "ors":           {"unit": "sachet", "cost_usd": 0.08, "volume": 0.02},
+    "ns1_kits":      {"unit": "kit",    "cost_usd": 2.50, "volume": 0.05},
+    "antimalarials": {"unit": "course", "cost_usd": 1.50, "volume": 0.01}
+  },
+  "per_admission": {"iv_saline": {"dengue": 5.0, "diarrhoea": 4.0}},
+  "per_case": {"ns1_kits": {"dengue": 1.2}, "ors": {"diarrhoea": 5.0}, "antimalarials": {"malaria": 1.0}},
+  "length_of_stay_days": {"dengue": 4.0, "diarrhoea": 2.5, "ili": 4.0, "malaria": 3.0},
+  "admission_rate_prior_strength": 50,
+  "horizon_weeks": 4,
+  "transport_tightness": 1.5,
+  "equity_floor_alphas": [0.0, 0.2, 0.4, 0.6, 0.8],
+  "budget_fractions": [0.2, 0.4, 0.6, 0.8, 1.0],
+  "max_efficiency_loss_for_recommendation": 0.10
+}

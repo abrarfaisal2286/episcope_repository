@@ -1,0 +1,98 @@
+{
+ "patient_dedup": {
+  "flagged": 10668,
+  "injected_in_silver": 10906,
+  "true_positive": 10668,
+  "precision": 1.0,
+  "recall": 0.9782
+ },
+ "rows_in": 1321325,
+ "rules": [
+  {
+   "rule_code": "R01_NULL_ENCOUNTER_ID",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R02_NULL_PATIENT_ID",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R03_NULL_FACILITY",
+   "fail": 1308,
+   "fail_rate": 0.00099
+  },
+  {
+   "rule_code": "R04_BAD_ONSET_DATE",
+   "fail": 651,
+   "fail_rate": 0.00049
+  },
+  {
+   "rule_code": "R05_BAD_REPORT_DATE",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R06_ONSET_AFTER_REPORT",
+   "fail": 2693,
+   "fail_rate": 0.00204
+  },
+  {
+   "rule_code": "R07_DELAY_TOO_LONG",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R08_IMPLAUSIBLE_DATE",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R09_BAD_AGE",
+   "fail": 10468,
+   "fail_rate": 0.00792
+  },
+  {
+   "rule_code": "R10_BAD_SEX",
+   "fail": 2689,
+   "fail_rate": 0.00204
+  },
+  {
+   "rule_code": "R11_BAD_ICD10",
+   "fail": 4075,
+   "fail_rate": 0.00308
+  },
+  {
+   "rule_code": "R12_BAD_FLAG",
+   "fail": 1360,
+   "fail_rate": 0.00103
+  },
+  {
+   "rule_code": "R13_BAD_OUTCOME",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R14_ORPHAN_FACILITY",
+   "fail": 6640,
+   "fail_rate": 0.00503
+  },
+  {
+   "rule_code": "R15_INVALID_GEOGRAPHY",
+   "fail": 0,
+   "fail_rate": 0.0
+  },
+  {
+   "rule_code": "R16_DUPLICATE_IN_BATCH",
+   "fail": 24493,
+   "fail_rate": 0.01854
+  },
+  {
+   "rule_code": "R17_DUPLICATE_EXISTING",
+   "fail": 0,
+   "fail_rate": 0.0
+  }
+ ],
+ "quarantined_rows": 54112
+}

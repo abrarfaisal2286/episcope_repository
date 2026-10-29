@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EpiScope: national disease surveillance and response planning</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="title">
+    <h1>EpiScope</h1>
+    <span class="sub">Early warning, forecasts and supply allocation (synthetic teaching data)</span>
+  </div>
+  <div class="controls">
+    <label>View as
+      <select id="role">
+        <option value="national">National (Ministry)</option>
+        <option value="district">District health officer</option>
+      </select>
+    </label>
+    <label id="own-wrap" hidden>My district <select id="own"></select></label>
+    <label>Disease <select id="disease"></select></label>
+    <label>Alert method <select id="method"><option value="c2">EARS C2 (z-score)</option><option value="fl">Seasonal baseline (Farrington-style z)</option><option value="cusum">CUSUM on seasonal residuals</option></select></label>
+  </div>
+  <div id="fresh" class="fresh"></div>
+</header>
+<div id="error" class="error" hidden></div>
+<main>
+  <section id="p-map" class="panel">
+    <h2>1. Incidence per 100,000 and alerts <span class="stamp"></span></h2>
+    <div id="map"></div><div id="map-legend" class="legend"></div>
+  </section>
+  <section id="p-ts" class="panel wide">
+    <h2>2. Cases, forecast and alert threshold <span class="stamp"></span></h2>
+    <div id="ts-title" class="hint"></div>
+    <div id="ts"></div><div id="ctx"></div>
+    <div id="ts-legend" class="legend"></div>
+  </section>
+  <section id="p-heat" class="panel">
+    <h2>3. Seasonal heatmap <span class="stamp"></span></h2>
+    <label class="inline">Layout <select id="heat-mode"><option value="year">Selected district: year by epi-week</option><option value="district">All districts: average by epi-week</option></select></label>
+    <div id="heat"></div><div id="heat-legend" class="legend"></div>
+  </section>
+  <section id="p-alloc" class="panel">
+    <h2>4. Demand, stock and recommended allocation <span class="stamp"></span></h2>
+    <label class="inline">Resource <select id="resource"></select></label>
+    <div id="alloc-note" class="hint"></div>
+    <div id="alloc"></div><div id="alloc-legend" class="legend"></div>
+  </section>
+  <section id="p-table" class="panel">
+    <h2>5. Early-warning ranking <span class="stamp"></span></h2>
+    <div id="table-wrap"><table id="ewt"></table></div>
+  </section>
+  <section id="p-whatif" class="panel">
+    <h2>What-if panel <span class="stamp"></span></h2>
+    <div class="slider"><label>Budget (share of national need) <b id="v-budget"></b></label><input id="budget" type="range" min="0.2" max="1" step="0.2"></div>
+    <div class="slider"><label>Equity floor alpha <b id="v-alpha"></b></label><input id="alpha" type="range" min="0" max="0.8" step="0.2"></div>
+    <div class="slider"><label>Detection threshold <b id="v-thr"></b></label><input id="thr" type="range" min="1" max="30" step="0.5"></div>
+    <div id="whatif-kpi" class="hint"></div>
+    <div id="eq-chart"></div><div id="det-chart"></div>
+  </section>
+  <section id="p-dq" class="panel">
+    <h2>Data quality <span class="stamp"></span></h2>
+    <div id="dq"></div>
+  </section>
+  <section id="p-cal" class="panel wide">
+    <h2>Seasonal preparedness calendar (next year, selected disease) <span class="stamp"></span></h2>
+    <div id="cal"></div>
+  </section>
+</main>
+<footer>Small counts (1 to 4) are suppressed and shown as blank or hatched. Forecast bands show the 80% prediction interval. Synthetic data: not for operational use.</footer>
+<div id="tip" class="tip" hidden></div>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="6" height="6" fill="#eeeeee"/><line x1="0" y1="0" x2="0" y2="6" stroke="#888888" stroke-width="2"/>
+  </pattern></defs></svg>
+<script src="vendor/d3.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

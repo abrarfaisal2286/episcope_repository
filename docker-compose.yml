@@ -1,0 +1,18 @@
+# docker compose up   -> runs `make all` and writes dashboard data into ./dashboard/data
+# docker compose run --service-ports dashboard   -> serves the dashboard at http://localhost:8000
+services:
+  pipeline:
+    build: .
+    environment:
+      - SF=${SF:-0.05}
+      - SEED=${SEED:-42}
+      - SPARK_DRIVER_MEMORY=${SPARK_DRIVER_MEMORY:-4g}
+    volumes:
+      - ./data:/app/data
+      - ./dashboard/data:/app/dashboard/data
+  dashboard:
+    build: .
+    command: make serve
+    ports: ["8000:8000"]
+    volumes:
+      - ./dashboard/data:/app/dashboard/data
