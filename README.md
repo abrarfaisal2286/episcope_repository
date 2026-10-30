@@ -1,57 +1,51 @@
 # EpiScope: big data surveillance, forecasting and response planning
 
-**Video presentation: PASTE THE SHAREABLE LINK HERE (YouTube unlisted or Drive "anyone with the link")**
-Chapter timestamps: PASTE HERE.
+EpiScope ingests health, climate and stock data into a Spark lakehouse (bronze, silver, gold), detects outbreaks, forecasts cases
+and hospital demand, allocates scarce supplies with a linear programme, and serves a D3.js dashboard that never exposes
+line-level data. All data are synthetic or public.
 
-CSE 4345 Big Data Analytics, Complex Engineering Problem, Premier University Chittagong. Group number, members and IDs:
-see the report cover page (`docs/EpiScope_Report.pdf`).
+## Quick start
 
-EpiScope ingests heterogeneous health, climate and stock data into a Spark medallion lakehouse, detects outbreaks,
-forecasts cases and hospital demand, allocates scarce supplies with a linear programme, and serves a D3.js dashboard that
-never exposes line-level data. All data are synthetic or public (see "Data").
+**Prerequisites:** Python 3.10 to 3.12 and **Java 11 or 17** (`java -version`; Java 21 does not work with this Spark version),
+16 GB RAM (it also runs at small scale on 4 GB), 10 GB free disk for full scale, and `make`
+(on Windows use Git Bash, WSL or Docker).
 
-## Prerequisites
-* Python 3.10 to 3.12 and **Java 11 or 17** (`java -version`). Java 21 breaks Arrow-based pandas UDFs in Spark 3.5.
-* 16 GB RAM laptop (tested down to 4 GB at small scale factors), 10 GB free disk for SF=1.
-* `pip install -r requirements.txt` (all versions pinned) or `make setup`. Docker alternative: `docker compose up`.
-
-## One command (ENG-1)
 ```
-make all            # SF=0.05 by default: generate -> bronze -> silver -> gold -> analytics -> dashboard data
-make all SF=1       # full scale (25 million encounters)
+make setup          # install pinned dependencies (pip install -r requirements.txt)
+make all            # one command: generate -> bronze -> silver -> gold -> analytics -> dashboard data
 make serve          # dashboard at http://localhost:8000
 ```
-`make all` creates `.env` with a random salt on first run (the salt is never committed). The same sequence without
-the Makefile: `python -m orchestration.run_pipeline --sf 0.05 --seed 42` then `cd dashboard && python -m http.server`.
 
-## Hidden 14-day test drop
-1. Copy the drop files into `data/raw/encounters/` (CSV, same schema), `data/raw/stock/` (JSON lines) and, if supplied,
-   `data/raw/weather/` (file names are free; nothing is hard-coded; a date in the file name is used only for partitioning).
-2. Run `make incremental`. It ingests only new files (checksum ledger), rebuilds only the affected epi-weeks (late records
-   update older weeks), re-scores detection, re-forecasts, re-solves the allocation scenarios and rewrites `dashboard/data/`.
-3. Run `make serve`. Re-running step 2 changes nothing (idempotent).
+`make all` uses scale factor 0.05 (about 1.3 million records). For the full 25 million records use `make all SF=1`.
+The first run creates a `.env` file with a random salt for hashing patient identifiers; it is never committed.
+
+Tests: `make test-fast` (about 2 minutes) or `make test` (adds the slow Spark integration test, about 8 minutes).
+
+## Running the hidden 14-day test drop
+
+1. Copy the drop files into `data/raw/encounters/` (CSV), `data/raw/stock/` (JSON lines) and, if supplied, `data/raw/weather/`.
+   File names are free and nothing is hard-coded.
+2. Run `make incremental`. It ingests only new files, rebuilds only the affected epi-weeks (late records update older weeks),
+   re-scores alerts, re-forecasts, re-solves the allocation scenarios and rewrites `dashboard/data/`.
+3. Run `make serve`. Running step 2 again changes nothing (idempotent).
+
 To rehearse with our own drop: `make drop`.
 
-## Layout and architecture
+## Architecture
+
 ```
-generator/      seeded synthetic S4-S6, weather fetch (Open-Meteo) with synthetic fallback, reference builders
-pipeline/       bronze (ingest), silver (rules, de-identification, de-duplication), gold (marts), quality, streaming
-analytics/      detection (EARS C2, CUSUM), forecast (NB GLM), optimise (demand, LP), calendar (STL)
+generator/      synthetic encounters, registry, stock; weather fetch (Open-Meteo) with synthetic fallback
+pipeline/       bronze (ingest), silver (17 rules, de-identification, de-duplication), gold (marts), quality, streaming
+analytics/      detection (EARS C2, seasonal, CUSUM), forecast (negative-binomial), optimise (demand, LP), calendar (STL)
 serving/        gold -> aggregated, small-cell-suppressed JSON
 dashboard/      D3.js v7 dashboard (index.html, app.js, data/)
-orchestration/  DAG runner with retries and timing log
+orchestration/  pipeline runner with retries and timing log
 tests/  scripts/  docs/
 ```
-Bronze keeps raw strings plus `_batch_id`, `_file_checksum`, `_load_ts`, `_source_file`. Silver is partitioned by
-`epi_year/epi_week` of onset (late data touch only recent partitions; division is not a partition key because eight divisions
-by 260 weeks would create tiny files). Gold marts are partitioned by epi-week. Tables are registered in the Spark SQL (Hive
-metastore, Derby) catalog under database `episcope`. Epi-week definition: Sunday start, year of the Wednesday.
 
-## Data
-S1 boundaries: OCHA COD-AB Bangladesh ADM2 (redistributed on GitHub; simplified to 120 KB). S2 population: approximate rounded
-district totals entered for teaching (replace `generator/reference.py::POP_K` or `data/reference/districts.csv` with the BBS 2022
-table). S3 weather: `generator/weather.py` fetches Open-Meteo archive data per district centroid and caches it; when the API is
-unreachable it falls back to a seeded synthetic monsoon model and labels rows `synthetic_fallback`. S4-S6 are synthetic.
+Bronze keeps raw data unchanged plus batch id, file checksum and load time. Silver is typed, validated, de-identified (salted hash,
+age bands) and partitioned by `epi_year/epi_week`. Gold holds the epi-week marts, report completeness and the data-quality report;
+tables are registered in the Spark SQL catalog under database `episcope`. Epi-weeks start on Sunday and belong to the year of their Wednesday.
 
 ## Requirement traceability
 | ID | Where | Report section |
@@ -81,7 +75,7 @@ unreachable it falls back to a seeded synthetic monsoon model and labels rows `s
 | AN-8 | analytics/optimise/allocate.py (scenario grid), dashboard what-if | 6 |
 | AN-9 | analytics/calendar/seasonal_calendar.py | 5 |
 | AN-10 | not implemented | 9 |
-| VIS-1..4 | dashboard/ | 7 |
+| VIS-1 to VIS-4 | dashboard/ | 7 |
 | VIS-5 | dashboard what-if panel (precomputed scenario grid) | 7 |
 | VIS-6 | dashboard (CB-safe palettes, bands, hatching, freshness stamps) | 7 |
 | VIS-7 | not implemented | 9 |
@@ -90,22 +84,4 @@ unreachable it falls back to a seeded synthetic monsoon model and labels rows `s
 | ENG-3 | scripts/spark_optimisations.py, docs/spark_optimisations.json | 6 |
 | ENG-4 | tests/ (unit, optimiser constraints, de-identification, incremental), retrying DAG | 3 |
 
-## Results summary (SF=0.05, one CPU, 4 GB; see report section VI and `docs/results/`)
-Detection (seasonal baseline) 89% of planted outbreaks at 0.98 false alert episodes per district-year; dengue forecast error 36% below
-the seasonal-naive baseline; forecast-based allocation leaves 24% less weighted need unmet than a population split at a 60% budget;
-quality rules quarantine 4.1% of records; 14 tests pass; streaming alerts median 22 s; a 14-day drop is ingested incrementally and a
-re-run changes nothing (`docs/drop_rehearsal_state*.json`). Scaling was measured only at SF 0.01, 0.025 and 0.05 (about 11 to 13 minutes
-for the data stages, dominated by fixed overheads); SF 0.25 to 1 must be measured by the team.
-
-## Rebuilding the report
-`pip install -r requirements-docs.txt`, then `PYTHONPATH=. python docs/make_figures.py` and
-`cd docs/report && PYTHONPATH=../.. python finalize_report.py --data <data dir>` (needs pdflatex with IEEEtran). All numbers are read from
-result files. Fill the placeholders (group, members, links) in `finalize_report.py` and Appendices B and C.
-
-## Tests
-`make test-fast` (unit tests, about 2 minutes) and `make test` (adds the Spark integration test of idempotent and
-late-record loads, about 6 minutes).
-
-## Known limitations
-See report section 9. Populations are approximate; the usability test and the SF=1 scaling run must be executed by the team
-on its own hardware (instructions in `docs/TEAM_TODO.md`).
+The technical report is `docs/EpiScope_Report.pdf`; measured results are in `docs/RESULTS.md`.
