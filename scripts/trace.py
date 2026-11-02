@@ -11,6 +11,7 @@ from common.spark_utils import read_ledger
 
 
 def main(did, disease, week):
+    """Print the bronze batches and source files behind one gold weekly_cases record."""
     w = read_table("gold", "weekly_cases")
     w["week_start"] = pd.to_datetime(w["week_start"])
     r = w[(w["district_id"] == did) & (w["disease_group"] == disease) & (w["week_start"] == pd.Timestamp(week))]
