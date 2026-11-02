@@ -85,3 +85,5 @@ tables are registered in the Spark SQL catalog under database `episcope`. Epi-we
 | ENG-4 | tests/ (unit, optimiser constraints, de-identification, incremental), retrying DAG | 3 |
 
 The technical report is `docs/EpiScope_Report.pdf`; measured results are in `docs/RESULTS.md`.
+Nur Mohammed joined the project.
+
