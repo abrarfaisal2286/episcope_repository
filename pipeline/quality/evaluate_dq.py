@@ -10,6 +10,7 @@ from common.io import read_table
 
 
 def main():
+    """Score patient de-duplication against ground truth and summarise rule fail rates into dq_evaluation.json."""
     out = {}
     s = read_table("silver", "encounters", columns=["encounter_id", "is_duplicate_patient"])
     flagged = set(s.loc[s["is_duplicate_patient"], "encounter_id"])
