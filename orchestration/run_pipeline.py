@@ -34,6 +34,7 @@ STAGES = [
 
 
 def run_stage(name, cmd, retries, log):
+    """Run one stage as a subprocess, retrying with back-off on failure, and log its status and duration."""
     t0 = time.time()
     status = "failed"
     for attempt in range(1, retries + 2):
@@ -55,6 +56,7 @@ def run_stage(name, cmd, retries, log):
 
 
 def main():
+    """Parse command-line options and run the pipeline stages in order."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--sf", type=float, default=0.05)
     ap.add_argument("--seed", type=int, default=42)
