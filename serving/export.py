@@ -20,11 +20,13 @@ DIS = config.DISEASES
 
 
 def dump(obj, path):
+    """Write obj as compact JSON to path, creating the folder if needed."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, separators=(",", ":"), allow_nan=False, default=_default))
 
 
 def _default(o):
+    """JSON fallback: convert numpy and pandas values to plain Python types (NaN becomes null)."""
     if isinstance(o, (np.integer,)):
         return int(o)
     if isinstance(o, (np.floating,)):
@@ -37,6 +39,7 @@ def _default(o):
 
 
 def _clean(v, nd=2):
+    """Round v to nd decimals; return None for missing or NaN values."""
     if v is None or (isinstance(v, float) and np.isnan(v)):
         return None
     return round(float(v), nd)
