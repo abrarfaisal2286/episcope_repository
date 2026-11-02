@@ -13,3 +13,4 @@ node_modules/
 metastore_db/
 derby.log
 spark-warehouse/
+.vscode/
