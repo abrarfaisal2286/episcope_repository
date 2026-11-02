@@ -67,6 +67,7 @@ def register_tables(spark) -> list:
 
 # ------------------------------------------------------------------ ledger (idempotency)
 def sha256_file(path, block=1 << 20) -> str:
+    """SHA-256 hash of a file, read in 1 MB blocks so large files fit in memory."""
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(block), b""):
@@ -75,15 +76,18 @@ def sha256_file(path, block=1 << 20) -> str:
 
 
 def ledger_path(name: str) -> pathlib.Path:
+    """Path of the JSON ledger file with the given name."""
     return config.LEDGER / f"{name}.json"
 
 
 def read_ledger(name: str) -> dict:
+    """Load a ledger as a dict, or an empty dict if it does not exist yet."""
     p = ledger_path(name)
     return json.loads(p.read_text()) if p.exists() else {}
 
 
 def write_ledger(name: str, data: dict) -> None:
+    """Save the ledger atomically: write a .tmp file first, then replace the old one."""
     config.LEDGER.mkdir(parents=True, exist_ok=True)
     tmp = ledger_path(name).with_suffix(".tmp")
     tmp.write_text(json.dumps(data, indent=1, sort_keys=True))
