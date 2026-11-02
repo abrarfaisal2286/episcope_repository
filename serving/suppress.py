@@ -9,6 +9,7 @@ from common.config import SMALL_CELL_MAX
 
 
 def is_small(v) -> bool:
+    """True if v is a small cell (1 to SMALL_CELL_MAX) that must be suppressed; zero and None are not small."""
     return v is not None and 1 <= v <= SMALL_CELL_MAX
 
 
