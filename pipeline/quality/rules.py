@@ -24,6 +24,7 @@ RULE_DESCRIPTIONS = {
 
 
 def _blank(c):
+    """Spark condition: TRUE when column c is null or contains only spaces."""
     return F.col(c).isNull() | (F.trim(F.col(c)) == "")
 
 
