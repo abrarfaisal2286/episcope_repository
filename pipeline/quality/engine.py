@@ -13,6 +13,7 @@ def evaluate(df, rules):
 
 
 def split(d):
+    """Split evaluated rows into (valid, quarantined); quarantined rows keep their rule codes."""
     valid = d.where(F.size("_reasons") == 0).drop("_reasons")
     invalid = (d.where(F.size("_reasons") > 0)
                .withColumn("_reason_codes", F.concat_ws("|", "_reasons")).drop("_reasons"))
@@ -20,6 +21,7 @@ def split(d):
 
 
 def failure_counts(d):
+    """Count how many rows failed each rule in each batch."""
     return (d.select("_batch_id", F.explode("_reasons").alias("rule_code"))
             .groupBy("_batch_id", "rule_code").count().withColumnRenamed("count", "rule_fail_count"))
 
