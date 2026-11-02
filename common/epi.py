@@ -14,18 +14,22 @@ def week_start_col(date_col):
 
 
 def epi_year_col(week_start_col_):
+    """Spark column: epi year of the week, i.e. the calendar year of its Wednesday."""
     return F.year(F.date_add(week_start_col_, 3))
 
 
 def epi_week_col(week_start_col_):
+    """Spark column: epi week number, ceil(day of year of the Wednesday / 7)."""
     return F.ceil(F.dayofyear(F.date_add(week_start_col_, 3)) / 7).cast("int")
 
 
 def week_start(d: dt.date) -> dt.date:
+    """Return the Sunday on or before date d (the start of its epi week)."""
     return d - dt.timedelta(days=(d.weekday() + 1) % 7)     # Monday=0 ... Sunday=6
 
 
 def epi_year_week(ws: dt.date):
+    """Return (epi_year, epi_week) for the week starting on Sunday ws."""
     wed = ws + dt.timedelta(days=3)
     return wed.year, math.ceil(wed.timetuple().tm_yday / 7)
 
