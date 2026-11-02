@@ -50,6 +50,6 @@ SMALL_CELL_MAX = 4               # counts 1..4 are suppressed in all outputs
 
 
 def ensure_dirs() -> None:
-    def ensure_dirs() -> None:
+    """Create the raw, lake, output, serving and log directories if they do not exist."""
     for p in (RAW, GROUND_TRUTH, BRONZE, SILVER, GOLD, LEDGER, OUTPUTS, SERVING, LOGS):
         p.mkdir(parents=True, exist_ok=True)
