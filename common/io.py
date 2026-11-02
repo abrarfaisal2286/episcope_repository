@@ -4,6 +4,7 @@ from common import config
 
 
 def read_table(layer: str, name: str, **kw) -> pd.DataFrame:
+    """Read a lake table (layer/name) into pandas, turning partition categoricals back into plain columns."""
     df = pd.read_parquet(config.LAKE / layer / name, **kw)
     for c in df.columns:                         # partition columns arrive as categoricals
         if isinstance(df[c].dtype, pd.CategoricalDtype):
